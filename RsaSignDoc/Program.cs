@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Diagnostics;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 
@@ -92,17 +88,20 @@ public class RsaSignDoc
         string privateKey = "";
         byte[] signedData = Array.Empty<byte>();
 
+        // Generate RSA key pair
         RSAKeyGenerator(ref publicKey, ref privateKey);
-
         Console.WriteLine("Public Key: \n" + publicKey);
         Console.WriteLine("Private Key: \n" + privateKey);
 
+        // Data to be signed could be anything/type as it will be converted to a byte array
         string data = "This is the data to be signed.";
 
+        // Sign data
         signedData = SignData(data, privateKey);
-
         Console.WriteLine("Signed Data: \n" + Convert.ToBase64String(signedData));
 
+        // Verify data
+        //data = "This is NOT the data to be signed."; // Change this to verify a different data
         bool verified = VerifyData(data, publicKey, signedData);
         Console.WriteLine("Data Verified: \n" + verified);
     }
